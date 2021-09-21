@@ -1,0 +1,36 @@
+﻿@model Etap12.Insurance
+
+@{
+    ViewData["Title"] = "Страхування";
+}
+
+<h1>Страхування</h1>
+
+<div>
+    <h4>Страхування</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InsuranceCases)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InsuranceCases)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Patient)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Patient.PatientName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.InsuranceId">Редагувати</a> |
+    <a asp-controller="Insurances" asp-action="IndexGlobal">Назад</a>
+</div>

@@ -1,0 +1,50 @@
+﻿@model Etap12.Doctor
+
+@{
+    ViewData["Title"] = "Редагувати лікаря";
+}
+
+<h1>Редагувати лікаря</h1>
+
+<h4>Лікар</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DoctorId" />
+            <div class="form-group">
+                <label asp-for="DoctorName" class="control-label"></label>
+                <input asp-for="DoctorName" class="form-control" />
+                <span asp-validation-for="DoctorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Education" class="control-label"></label>
+                <input asp-for="Education" class="form-control" />
+                <span asp-validation-for="Education" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateStartWork" class="control-label"></label>
+                <input asp-for="DateStartWork" class="form-control" />
+                <span asp-validation-for="DateStartWork" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoctorPhoneNumber" class="control-label"></label>
+                <input asp-for="DoctorPhoneNumber" class="form-control" />
+                <span asp-validation-for="DoctorPhoneNumber" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="HospitalId" />
+            <div class="form-group" asp-controller="Doctors" asp-action="IndexGlobal">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Doctors" asp-action="IndexGlobal">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
