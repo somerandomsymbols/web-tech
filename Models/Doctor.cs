@@ -27,6 +27,9 @@ namespace Etap12
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Телефон лікаря")]
         public int DoctorPhoneNumber { get; set; }
+        [Required(ErrorMessage = "Поле не повинно бути порожнім")]
+        [Display(Name = "Фото")]
+        public string DoctorPhoto { get; set; }
         public int HospitalId { get; set; }
 
         public virtual Hospital Hospital { get; set; }

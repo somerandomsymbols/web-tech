@@ -157,7 +157,6 @@ D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Insurances\Details.c
 D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Insurances\Edit.cshtml.g.cs
 D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Insurances\Index.cshtml.g.cs
 D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Doctors\IndexGlobal.cshtml.g.cs
-D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Hospitals\IndexGlobal.cshtml.g.cs
 D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Insurances\IndexGlobal.cshtml.g.cs
 D:\c\kubick\ISTP\Etap12\obj\Debug\netcoreapp3.1\Razor\Views\Patients\IndexGlobal.cshtml.g.cs
 D:\c\kubick\ISTP\Etap12\bin\Debug\netcoreapp3.1\ClosedXML.dll

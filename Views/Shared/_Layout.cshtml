@@ -3,7 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Etap12</title>
+    <title>@ViewData["Title"]</title>
+    @if (ViewData["Description"] != null)
+    {
+        <meta name="description" content="@ViewData["Description"]">
+    }
+    @if (ViewData["NoIndex"] != null && ViewData["NoIndex"].Equals(true))
+    {
+        <meta name="robots" content="noindex">
+    }
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-sketchy.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -22,13 +30,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Hospitals" asp-action="Index">Лікарні</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctors" asp-action="IndexGlobal">Лікарі</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctors" asp-action="Index" asp-route-id="null">Лікарі</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Patients" asp-action="IndexGlobal">Пацієнти</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Patients" asp-action="Index" asp-route-id="null">Пацієнти</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Insurances" asp-action="IndexGlobal">Страхування</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Insurances" asp-action="Index"  asp-route-id="null">Страхування</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Акаунт</a>

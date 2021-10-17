@@ -22,17 +22,21 @@ namespace Etap12.Controllers
         // GET: Insurances
         public async Task<IActionResult> Index(int? id, string name)
         {
-            if (id == null) return RedirectToAction("Patients", "Index");
             ViewBag.PatientId = id;
-            ViewBag.PatientName = name;
+
+            if (id == null)
+                //return RedirectToAction("Patients", "Index");
+                return View(await _context.Insurances.Include(i => i.Patient).ToListAsync());
+
+            ViewBag.PatientName = _context.Patients.FirstOrDefault(p => p.PatientId == id).PatientName;
             var iSTP1Context = _context.Insurances.Where(i => i.PatientId == id).Include(i => i.Patient);
             return View(await iSTP1Context.ToListAsync());
         }
 
-        public async Task<IActionResult> IndexGlobal()
+        /*public async Task<IActionResult> IndexGlobal()
         {
             return View(await _context.Insurances.Include(i => i.Patient).ToListAsync());
-        }
+        }*/
 
         // GET: Insurances/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -130,7 +134,7 @@ namespace Etap12.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(IndexGlobal));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DateOfBirth", insurance.PatientId);
             return View(insurance);
@@ -165,7 +169,7 @@ namespace Etap12.Controllers
             var insurance = await _context.Insurances.FindAsync(id);
             _context.Insurances.Remove(insurance);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexGlobal));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool InsuranceExists(int id)

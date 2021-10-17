@@ -24,6 +24,9 @@ namespace Etap12
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Display(Name = "Адреса лікарні")]
         public string HospitalAdress { get; set; }
+        [Required(ErrorMessage = "Поле не повинно бути порожнім")]
+        [Display(Name = "Фото лікарні")]
+        public string HospitalPhoto { get; set; }
 
         public virtual ICollection<Doctor> Doctors { get; set; }
     }

@@ -43,8 +43,26 @@ namespace Etap12.Controllers
                 return NotFound();
             }
 
+            return View(hospital);
+        }
+
+        // GET: Hospitals/Doctors/5
+        public async Task<IActionResult> Doctors(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var hospital = await _context.Hospitals
+                .FirstOrDefaultAsync(m => m.HospitalId == id);
+            if (hospital == null)
+            {
+                return NotFound();
+            }
+
             //return View(hospital);
-            return RedirectToAction("Index", "Doctors", new { id = hospital.HospitalId, name = hospital.HospitalName});
+            return RedirectToAction("Index", "Doctors", new { id = hospital.HospitalId, name = hospital.HospitalName });
         }
 
         // GET: Hospitals/Create
@@ -60,7 +78,7 @@ namespace Etap12.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([Bind("HospitalId,HospitalName,HospitalPhoneNumber,HospitalAdress")] Hospital hospital)
+        public async Task<IActionResult> Create([Bind("HospitalId,HospitalName,HospitalPhoneNumber,HospitalAdress,HospitalPhoto")] Hospital hospital)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +113,7 @@ namespace Etap12.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("HospitalId,HospitalName,HospitalPhoneNumber,HospitalAdress")] Hospital hospital)
+        public async Task<IActionResult> Edit(int id, [Bind("HospitalId,HospitalName,HospitalPhoneNumber,HospitalAdress,HospitalPhoto")] Hospital hospital)
         {
             if (id != hospital.HospitalId)
             {

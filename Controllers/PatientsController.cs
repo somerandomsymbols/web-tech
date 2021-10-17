@@ -22,20 +22,43 @@ namespace Etap12.Controllers
         // GET: Patients
         public async Task<IActionResult> Index(int? id, string? name)
         {
-            if (id == null) return RedirectToAction("Doctors", "Index");
             ViewBag.DoctorId = id;
-            ViewBag.DoctorName = name;
+
+            if (id == null)
+                //return RedirectToAction("Doctors", "Index");
+                return View(await _context.Patients.Include(p => p.Doctor).ToListAsync());
+
+            ViewBag.DoctorName = _context.Doctors.FirstOrDefault(d => d.DoctorId == id).DoctorName;
             var iSTP1Context = _context.Patients.Where(p => p.DoctorId == id).Include(p => p.Doctor);
             return View(await iSTP1Context.ToListAsync());
         }
 
-        public async Task<IActionResult> IndexGlobal()
+        /*public async Task<IActionResult> IndexGlobal()
         {
             return View(await _context.Patients.Include(p => p.Doctor).ToListAsync());
-        }
+        }*/
 
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var patient = await _context.Patients
+                .Include(p => p.Doctor)
+                .FirstOrDefaultAsync(m => m.PatientId == id);
+            if (patient == null)
+            {
+                return NotFound();
+            }
+
+            return View(patient);
+        }
+
+        // GET: Patients/Insurances/5
+        public async Task<IActionResult> Insurances(int? id)
         {
             if (id == null)
             {
@@ -132,7 +155,7 @@ namespace Etap12.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(IndexGlobal));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DateStartWork", patient.DoctorId);
             return View(patient);
@@ -167,7 +190,7 @@ namespace Etap12.Controllers
             var patient = await _context.Patients.FindAsync(id);
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexGlobal));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool PatientExists(int id)

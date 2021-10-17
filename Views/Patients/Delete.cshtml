@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Видалити пацієнта";
+    ViewData["NoIndex"] = true;
 }
 
 <h1>Видалити пацієнта</h1>
@@ -64,6 +65,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="PatientId" />
         <input type="submit" value="Видалити" class="btn btn-danger" /> |
-        <a asp-controller="Patients" asp-action="IndexGlobal">Назад</a>
+        <a asp-controller="Patients" asp-action="Index">Назад</a>
     </form>
 </div>

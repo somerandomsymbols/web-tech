@@ -22,22 +22,43 @@ namespace Etap12.Controllers
         // GET: Doctors
         public async Task<IActionResult> Index(int? id, string? name)
         {
-            if (id == null)
-                return RedirectToAction("Hospitals", "Index");
-
             ViewBag.HospitalId = id;
-            ViewBag.HospitalName = name;
+
+            if (id == null)
+                //return RedirectToAction("Hospitals", "Index");
+                return View(await _context.Doctors.Include(d => d.Hospital).ToListAsync());
+
+            ViewBag.HospitalName = _context.Hospitals.FirstOrDefault(h => h.HospitalId == id).HospitalName;
             var iSTP1Context = _context.Doctors.Where( d => d.HospitalId == id).Include(d => d.Hospital);
             return View(await iSTP1Context.ToListAsync());
         }
 
-        public async Task<IActionResult> IndexGlobal()
+        /*public async Task<IActionResult> IndexGlobal()
         {
             return View(await _context.Doctors.Include(d => d.Hospital).ToListAsync());
-        }
+        }*/
 
         // GET: Doctors/Details/5
         public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var doctor = await _context.Doctors
+                .Include(d => d.Hospital)
+                .FirstOrDefaultAsync(m => m.DoctorId == id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+
+            return View(doctor);
+        }
+
+        // GET: Doctors/Patients/5
+        public async Task<IActionResult> Patients(int? id)
         {
             if (id == null)
             {
@@ -72,7 +93,7 @@ namespace Etap12.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create(int hospitalId, [Bind("DoctorId,DoctorName,Education,DateStartWork,DoctorPhoneNumber,HospitalId")] Doctor doctor)
+        public async Task<IActionResult> Create(int hospitalId, [Bind("DoctorId,DoctorName,Education,DateStartWork,DoctorPhoneNumber,DoctorPhoto,HospitalId")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +132,7 @@ namespace Etap12.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,DoctorName,Education,DateStartWork,DoctorPhoneNumber,HospitalId")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,DoctorName,Education,DateStartWork,DoctorPhoneNumber,DoctorPhoto,HospitalId")] Doctor doctor)
         {
             if (id != doctor.DoctorId)
             {
@@ -136,7 +157,7 @@ namespace Etap12.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(IndexGlobal));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["HospitalId"] = new SelectList(_context.Hospitals, "HospitalId", "HospitalAdress", doctor.HospitalId);
             return View(doctor);
@@ -171,7 +192,7 @@ namespace Etap12.Controllers
             var doctor = await _context.Doctors.FindAsync(id);
             _context.Doctors.Remove(doctor);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexGlobal));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool DoctorExists(int id)

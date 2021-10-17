@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Додати пацієнта";
+    ViewData["NoIndex"] = true;
 }
 
 <h1>Додавання пацієнта до лікаря @ViewBag.DoctorName</h1>
@@ -56,7 +57,7 @@
 </div>
 
 <div>
-    <a asp-controller="Patients" asp-action="IndexGlobal">Назад</a>
+    <a asp-controller="Patients" asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

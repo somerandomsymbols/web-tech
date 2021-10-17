@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Лікарні";
+    ViewData["Description"] = "List of hospitals";
 }
 
-<h1>Лікарні</h1>
+<h1>Список лікарень</h1>
 
 <div>
     <h3>Оберіть excel-файл для заватаження</h3>
@@ -45,19 +46,20 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+            <tr itemtype="http://schema.org/Organization" itemscope>
+                <td itemprop="name">
                     @Html.DisplayFor(modelItem => item.HospitalName)
                 </td>
-                <td>
+                <td itemprop="telephone">
                     @Html.DisplayFor(modelItem => item.HospitalPhoneNumber)
                 </td>
-                <td>
+                <td itemprop="address">
                     @Html.DisplayFor(modelItem => item.HospitalAdress)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.HospitalId">Редагувати</a> |
                     <a asp-action="Details" asp-route-id="@item.HospitalId">Детальніше</a> |
+                    <a asp-controller="Doctors" asp-action="Index" asp-route-id="@item.HospitalId">Лікарі</a> |
                     <a asp-action="Delete" asp-route-id="@item.HospitalId">Видалити</a>
                 </td>
             </tr>

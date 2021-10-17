@@ -1,14 +1,29 @@
 ﻿@model IEnumerable<Etap12.Insurance>
 
 @{
-    ViewData["Title"] = "Страхування пацієнта";
+    ViewData["NoIndex"] = true;
+
+    if (ViewBag.PatientName != null)
+    {
+        ViewData["Title"] = "Страхування пацієнта " + ViewBag.PatientName;
+    }
+    else
+    {
+        ViewData["Title"] = "Страхування";
+    }
 }
 
-<h1>Страхування пацієнта @ViewBag.PatientName</h1>
 
-<p>
-    @Html.ActionLink("Додати нове страхування", "Create", new { patientId = @ViewBag.PatientId })
-</p>
+@if (ViewBag.PatientName != null)
+{
+    <h1>Список страхувань пацієнта @ViewBag.PatientName</h1>
+    <p>@Html.ActionLink("Додати нове страхування", "Create", new { patientId = @ViewBag.PatientId })</p>
+}
+else
+{
+    <h1>Список страхувань</h1>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -25,23 +40,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsuranceCases)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Patient.PatientName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.InsuranceId">Редагувати</a> |
-                <a asp-action="Details" asp-route-id="@item.InsuranceId">Детальніше</a> |
-                <a asp-action="Delete" asp-route-id="@item.InsuranceId">Видалити</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsuranceCases)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patient.PatientName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.InsuranceId">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.InsuranceId">Детальніше</a> |
+                    <a asp-action="Delete" asp-route-id="@item.InsuranceId">Видалити</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
