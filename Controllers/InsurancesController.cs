@@ -99,6 +99,8 @@ namespace Etap12.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Patients = _context.Patients.ToList();
             ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "DateOfBirth", insurance.PatientId);
             return View(insurance);
         }

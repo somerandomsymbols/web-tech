@@ -116,10 +116,13 @@ namespace Etap12.Controllers
             }
 
             var patient = await _context.Patients.FindAsync(id);
+
             if (patient == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Doctors = _context.Doctors.ToList();
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DateStartWork", patient.DoctorId);
             return View(patient);
         }

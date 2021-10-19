@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Редагувати лікаря";
+    ViewData["AutocompleteScript"] = true;
+    ViewData["EntityId"] = "HospitalId";
+    ViewData["EntityName"] = "HospitalName";
+    ViewData["EntityFilter"] = "/api/Hospitals/filter";
 }
 
 <h1>Редагувати лікаря</h1>
@@ -38,8 +42,14 @@
                 <input asp-for="DoctorPhoto" class="form-control" />
                 <span asp-validation-for="DoctorPhoto" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="HospitalId" />
-            <div class="form-group" asp-controller="Doctors" asp-action="IndexGlobal">
+            <div class="form-group">
+                <label asp-for="Hospital.HospitalName" class="control-label"></label>
+                <input id="HospitalName" asp-for="Hospital.HospitalName" class="form-control" />
+                <span asp-validation-for="Hospital.HospitalName" class="text-danger"></span>
+            </div>
+            <ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+            <input type="hidden" asp-for="HospitalId" id="HospitalId" />
+            <div class="form-group" asp-controller="Doctors" asp-action="Index">
                 <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>

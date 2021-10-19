@@ -122,6 +122,8 @@ namespace Etap12.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Hospitals = _context.Hospitals.ToList();
             ViewData["HospitalId"] = new SelectList(_context.Hospitals, "HospitalId", "HospitalAdress", doctor.HospitalId);
             return View(doctor);
         }

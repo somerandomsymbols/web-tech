@@ -47,6 +47,26 @@ namespace Etap12.Controllers
             return new { patient.PatientId, patient.PatientName, patient.PatientPhoneNumber, patient.HomeAdress, patient.DateOfBirth, patient.Height, patient.Weight, patient.Passport, patient.DoctorId, insurances = ilist };
         }
 
+        // GET: api/Patients/5
+        [Route("filter")]
+        [HttpGet("{term}/{callback}")]
+        public async Task<ActionResult<Object>> FilterPatients(int id, [FromQuery] string term, [FromQuery] string callback)
+        {
+            if (term == null)
+                term = "";
+            term = term.ToLower();
+            var patients = await _context.Patients.Where(p => p.PatientName.ToLower().StartsWith(term)).Select(p => new { id = p.PatientId, label = p.PatientName, value = p.PatientName }).ToListAsync();
+            string response = "([";
+
+            foreach (var p in patients)
+            {
+                response = response + "{ " + String.Format("\"id\":\"{0}\", \"label\":\"{1}\", \"value\":\"{2}\"", p.id, p.label, p.value) + " },";
+            }
+
+            response = callback + response.Substring(0, response.Length - 1) + "])";
+            return response;
+        }
+
         // PUT: api/Patients/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
