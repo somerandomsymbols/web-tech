@@ -28,6 +28,7 @@
 <p>
     <a asp-action="Create">Створити нову лікарню</a>
 </p>
+<div id="HospitalsMap" style="position: relative; width: 400px; height: 200px;"></div>
 <table class="table">
     <thead>
         <tr>
@@ -88,6 +89,52 @@
                 chart = new google.visualization.PieChart(document.getElementById('chart1'));
                 chart.draw(data, option);
             })
+        }
+    </script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic29tZXJhbmRvbXN5bWJvbHMiLCJhIjoiY2t1enI3aXl0M21wbDJwcXJ3ODR1NmltcyJ9.g3VJjufuyNUF_vPlZMBQNw';
+        const mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+        const map = new mapboxgl.Map({
+            container: 'HospitalsMap',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [0, 0],
+            zoom: 1
+        });
+
+        function drawItem(address, name) {
+            mapboxClient.geocoding
+                .forwardGeocode({
+                    query: address,
+                    autocomplete: false,
+                    limit: 1
+                })
+                .send()
+                .then((response) => {
+                    if (
+                        !response ||
+                        !response.body ||
+                        !response.body.features ||
+                        !response.body.features.length
+                    ) {
+                        console.error('Invalid response:');
+                        console.error(response);
+                        return;
+                    }
+                    const feature = response.body.features[0];
+
+
+
+                    // Create a marker and add it to the map.
+                    new mapboxgl.Marker().setLngLat(feature.center).setPopup(new mapboxgl.Popup({ closeButton: false, closeOnClick: false }).setHTML('<font size="1">' + name + '</font>').setMaxWidth('25%')).addTo(map).togglePopup();
+                });
+        }
+
+        @foreach (var h in Model)
+        {
+            @:drawItem('@(h.HospitalAdress)','@(h.HospitalName)');
         }
     </script>
 }
